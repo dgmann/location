@@ -21,6 +21,10 @@ type Config struct {
 	// Base is the base path that should be used in conjunction with proxy
 	// servers that do path re-writing.
 	Base string
+
+	// ForwardingHeader is the expected header for identifying the original host
+	// requested by the client in the Host HTTP request header
+	ForwardingHeader string
 }
 
 // DefaultConfig returns a generic default configuration mapped to localhost.

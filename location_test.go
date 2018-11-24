@@ -45,7 +45,7 @@ var tests = []struct {
 	// x-formward headers
 	{
 		want: "https://bar.com/bar",
-		conf: Config{"http", "foo.com", "/bar"},
+		conf: Config{"http", "foo.com", "/bar", "X-Forwarded-For"},
 		req: &http.Request{
 			Header: http.Header{
 				"X-Forwarded-Proto": {"https"},
@@ -58,7 +58,7 @@ var tests = []struct {
 	// X-Host headers
 	{
 		want: "http://bar.com/bar",
-		conf: Config{"http", "foo.com", "/bar"},
+		conf: Config{"http", "foo.com", "/bar", "X-Forwarded-For"},
 		req: &http.Request{
 			Header: http.Header{
 				"X-Host": {"bar.com"},
@@ -70,7 +70,7 @@ var tests = []struct {
 	// URL Host
 	{
 		want: "http://bar.com/bar",
-		conf: Config{"http", "foo.com", "/bar"},
+		conf: Config{"http", "foo.com", "/bar", "X-Forwarded-For"},
 		req: &http.Request{
 			Header: http.Header{},
 			URL: &url.URL{
@@ -82,7 +82,7 @@ var tests = []struct {
 	// requests
 	{
 		want: "https://baz.com/bar",
-		conf: Config{"http", "foo.com", "/bar"},
+		conf: Config{"http", "foo.com", "/bar", "X-Forwarded-For"},
 		req: &http.Request{
 			Proto:  "HTTPS://",
 			Host:   "baz.com",
@@ -94,7 +94,7 @@ var tests = []struct {
 	// tls
 	{
 		want: "https://foo.com/bar",
-		conf: Config{"http", "foo.com", "/bar"},
+		conf: Config{"http", "foo.com", "/bar", "X-Forwarded-For"},
 		req: &http.Request{
 			TLS:    &tls.ConnectionState{},
 			Header: http.Header{},

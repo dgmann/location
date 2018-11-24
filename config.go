@@ -23,13 +23,17 @@ type (
 )
 
 func newLocation(config Config) *location {
+	forwardingHeader := config.ForwardingHeader
+	if forwardingHeader == "" {
+		forwardingHeader = "X-Forwarded-For"
+	}
 	return &location{
 		scheme: config.Scheme,
 		host:   config.Host,
 		base:   config.Base,
 		headers: headers{
 			scheme: "X-Forwarded-Proto",
-			host:   "X-Forwarded-For",
+			host:   forwardingHeader,
 		},
 	}
 }
