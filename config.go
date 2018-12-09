@@ -35,7 +35,7 @@ func newLocation(config Config) *location {
 		headers: headers{
 			scheme: "X-Forwarded-Proto",
 			host:   forwardingHeader,
-			base:	"X-Forwarded-Path"
+			base:	"X-Forwarded-Path",
 		},
 	}
 }
