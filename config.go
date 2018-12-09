@@ -19,6 +19,7 @@ type (
 	headers struct {
 		scheme string
 		host   string
+		base   string
 	}
 )
 
@@ -34,6 +35,7 @@ func newLocation(config Config) *location {
 		headers: headers{
 			scheme: "X-Forwarded-Proto",
 			host:   forwardingHeader,
+			base:	"X-Forwarded-Path"
 		},
 	}
 }
@@ -42,7 +44,7 @@ func (l *location) applyToContext(c *gin.Context) {
 	value := new(url.URL)
 	value.Scheme = l.resolveScheme(c.Request)
 	value.Host = l.resolveHost(c.Request)
-	value.Path = l.base
+	value.Path = l.resolveBase(c.Request)
 	c.Set(key, value)
 }
 
@@ -73,5 +75,14 @@ func (l *location) resolveHost(r *http.Request) (host string) {
 		return r.URL.Host
 	default:
 		return l.host
+	}
+}
+
+func (l *location) resolveBase(r *http.Request) (host string) {
+	switch {
+	case r.Header.Get(l.headers.base) != "":
+		return r.Header.Get(l.headers.base)
+	default:
+		return l.base
 	}
 }
